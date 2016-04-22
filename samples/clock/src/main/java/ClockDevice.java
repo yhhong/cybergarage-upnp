@@ -182,7 +182,7 @@ public class ClockDevice extends Device implements ActionListener, QueryListener
 	{
 		String uri = httpReq.getURI();
 		if (uri.startsWith(PRESENTATION_URI) == false) {
-			super.httpRequestRecieved(httpReq);
+			super.httpRequestReceived(httpReq);
 			return;
 		}
 			 
