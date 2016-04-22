@@ -956,10 +956,10 @@ public class ControlPoint implements HTTPRequestListener
 		ssdpSearchResponseSocketList.close();
 		ssdpSearchResponseSocketList.clear();
 
-		HTTPServerList httpServerList = getHTTPServerList();
-		httpServerList.stop();
-		httpServerList.close();
-		httpServerList.clear();
+//		HTTPServerList httpServerList = getHTTPServerList();	// @Note discard by yinghuihong
+//		httpServerList.stop();
+//		httpServerList.close();
+//		httpServerList.clear();
 
 		////////////////////////////////////////
 		// Disposer

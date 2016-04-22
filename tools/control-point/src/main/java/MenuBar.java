@@ -18,10 +18,12 @@ public class MenuBar extends JMenuBar implements ActionListener
 	JMenu fileMenu;
 	JMenu searchMenu;
 	JMenu logMenu;
+	JMenu networkChangedMenu;
 
 	JMenuItem quitItem;
 	JMenuItem searchRootDeviceItem;
 	JMenuItem clearItem;
+	JMenuItem networkChangedItem;
 	
 	public MenuBar(CtrlPoint ctrlPoint)
 	{
@@ -44,6 +46,13 @@ public class MenuBar extends JMenuBar implements ActionListener
 		clearItem = new JMenuItem("Clear");
 		clearItem.addActionListener(this);
 		logMenu.add(clearItem);
+
+		networkChangedMenu = new JMenu("Simulate NetworkChanged");
+		add(networkChangedMenu);
+		networkChangedItem = new JMenuItem("Restart");
+		networkChangedItem.addActionListener(this);
+		networkChangedMenu.add(networkChangedItem);
+
 	}
 
 	////////////////////////////////////////////////
@@ -60,6 +69,9 @@ public class MenuBar extends JMenuBar implements ActionListener
 		}
 		if (e.getSource() == clearItem) {
 			ctrlPoint.clearConsole();
+		}
+		if (e.getSource() == networkChangedItem) {
+			ctrlPoint.start();
 		}
 	}
 }
