@@ -115,6 +115,10 @@ public class Subscriber
 		timeOut = value;
 	}
 
+	/**
+	 * @Note 订阅者是否已过期
+	 * @return true为已过期
+     */
 	public boolean isExpired()
 	{
 		long currTime = System.currentTimeMillis();
@@ -124,7 +128,7 @@ public class Subscriber
 			return false; 
 			
 		// Thanks for Oliver Newell (10/26/04)
-		long expiredTime = getSubscriptionTime() + getTimeOut()*1000;
+		long expiredTime = getSubscriptionTime() + getTimeOut()*1000;	//@Note 订阅时间+有效时长 对比 当前时间
 		if (expiredTime < currTime)
 			return true;
 			
@@ -132,7 +136,7 @@ public class Subscriber
 	}
 	
 	////////////////////////////////////////////////
-	//	SubscriptionTIme
+	//	SubscriptionTIme	@Note 订阅事件
 	////////////////////////////////////////////////
 
 	private long subscriptionTime = 0;
@@ -146,7 +150,7 @@ public class Subscriber
 	}
 
 	////////////////////////////////////////////////
-	//	SEQ
+	//	SEQ		@Note 计数"已通知次数"
 	////////////////////////////////////////////////
 
 	private long notifyCount = 0;
@@ -168,7 +172,7 @@ public class Subscriber
 	}
 	
 	////////////////////////////////////////////////
-	//	renew
+	//	renew	@Note 重置订阅时间与通知次数
 	////////////////////////////////////////////////
 	
 	public void renew()

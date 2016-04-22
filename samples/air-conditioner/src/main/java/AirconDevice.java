@@ -20,7 +20,7 @@ import org.cybergarage.upnp.control.*;
 
 public class AirconDevice extends Device implements ActionListener, QueryListener
 {
-	private final static String DESCRIPTION_FILE_NAME = "description/description.xml";
+	private final static String DESCRIPTION_FILE_NAME = "/Users/yinghuihong/GIT/JAVA/CyberLink4Java/samples/air-conditioner/src/main/resources/description/description.xml";
 
 	private StateVariable tempVar;
 	

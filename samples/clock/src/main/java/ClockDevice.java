@@ -9,9 +9,6 @@
 ******************************************************************/
 
 import java.io.*;
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 import org.cybergarage.upnp.*;
 import org.cybergarage.upnp.device.*;
@@ -178,10 +175,10 @@ public class ClockDevice extends Device implements ActionListener, QueryListener
 	}
 
 	////////////////////////////////////////////////
-	// HttpRequestListner
+	// HttpRequestListner	@Note 具体设备自定义接收到HTTP请求后响应的内容
 	////////////////////////////////////////////////
 	
-	public void httpRequestRecieved(HTTPRequest httpReq)
+	public void httpRequestReceived(HTTPRequest httpReq)
 	{
 		String uri = httpReq.getURI();
 		if (uri.startsWith(PRESENTATION_URI) == false) {

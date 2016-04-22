@@ -189,11 +189,12 @@ public class HTTPMUSocket
 	}
 
 	////////////////////////////////////////////////
-	//	send
+	//	send	@Note 发送数据报
 	////////////////////////////////////////////////
 
 	public boolean send(String msg, String bindAddr, int bindPort)
 	{
+		Debug.message("[HTTPMUSocket.java] 设备端发送多播'设备通知消息' Send() address and port is " + bindAddr + ":" + bindPort + ", msg:\n" + msg);
 		try {
 			MulticastSocket msock;
 			if ((bindAddr) != null && (0 < bindPort)) {
@@ -221,7 +222,7 @@ public class HTTPMUSocket
 	}
 
 	////////////////////////////////////////////////
-	//	post (HTTPRequest)
+	//	post (HTTPRequest)	@Note 处于什么角色?设备角色?发送HTTP文本
 	////////////////////////////////////////////////
 
 	public boolean post(HTTPRequest req, String bindAddr, int bindPort)
@@ -235,7 +236,7 @@ public class HTTPMUSocket
 	}
 
 	////////////////////////////////////////////////
-	//	reveive
+	//	reveive	@Note 处于设备角色?这里有Notify/Search等,所以两种角色都会使用到.用于socket监听接收消息
 	////////////////////////////////////////////////
 
 	public SSDPPacket receive() throws IOException

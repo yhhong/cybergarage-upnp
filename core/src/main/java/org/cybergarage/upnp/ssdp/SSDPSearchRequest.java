@@ -20,6 +20,9 @@ import org.cybergarage.http.*;
 
 import org.cybergarage.upnp.device.*;
 
+/**
+ * @Note 搜索请求数据封装包
+ */
 public class SSDPSearchRequest extends SSDPRequest
 {
 	////////////////////////////////////////////////

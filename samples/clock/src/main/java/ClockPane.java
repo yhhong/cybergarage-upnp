@@ -30,7 +30,7 @@ public class ClockPane extends JPanel  // MouseListener
 	//	Background
 	////////////////////////////////////////////////
 
-	private final static String CLOCK_PANEL_IMAGE = "images/clock.jpg";
+	private final static String CLOCK_PANEL_IMAGE = "/Users/yinghuihong/GIT/JAVA/CyberLink4Java/samples/ClockPane/src/main/resources/images/clock.jpg";
 
 	private BufferedImage panelmage;
 	

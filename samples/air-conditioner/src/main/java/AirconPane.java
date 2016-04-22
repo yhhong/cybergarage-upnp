@@ -29,7 +29,7 @@ public class AirconPane extends JPanel  // MouseListener
 	//	Background
 	////////////////////////////////////////////////
 
-	private final static String AIRCON_PANEL_IMAGE = "images/aircon.jpg";
+	private final static String AIRCON_PANEL_IMAGE = "/Users/yinghuihong/GIT/JAVA/CyberLink4Java/samples/air-conditioner/src/main/resources/images/aircon.jpg";
 
 	private BufferedImage panelmage;
 	

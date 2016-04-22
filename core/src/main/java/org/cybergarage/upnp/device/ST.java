@@ -15,6 +15,19 @@
 
 package org.cybergarage.upnp.device;
 
+/**
+ * @Note 设置服务查询的目标，它必须是下面的类型：
+ *
+ * -ssdp:all 搜索所有设备和服务
+ *
+ * -upnp:rootdevice 仅搜索网络中的根设备
+ *
+ * -uuid:device-UUID 查询UUID标识的设备
+ *
+ * -urn:schemas-upnp-org:device:device-Type:version 查询device-Type字段指定的设备类型，设备类型和版本由UPNP组织定义。
+ *
+ * -urn:schemas-upnp-org:service:service-Type:version 查询service-Type字段指定的服务类型，服务类型和版本由UPNP组织定义。
+ */
 public class ST 
 {
 	public final static String ALL_DEVICE = "ssdp:all";

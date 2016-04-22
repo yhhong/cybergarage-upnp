@@ -24,6 +24,9 @@ import java.io.StringReader;
 
 import org.cybergarage.util.Debug;
 
+/**
+ * @Note http header util 工具类,便于获取http head key and value
+ */
 public class HTTPHeader 
 {
 	private static int MAX_LENGTH = 1024;

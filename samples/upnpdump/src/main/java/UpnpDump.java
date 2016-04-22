@@ -29,39 +29,49 @@ public class UpnpDump extends ControlPoint implements NotifyListener, EventListe
 	////////////////////////////////////////////////
 	//	Listener
 	////////////////////////////////////////////////
-	
+
+	/**
+	 * @Note 设备发起Notify,控制点监听
+	 * @param packet
+     */
 	public void deviceNotifyReceived(SSDPPacket packet)
 	{
+		System.out.println("<<");
 		System.out.println(packet.toString());
 		
 		if (packet.isDiscover() == true) {
 			String st = packet.getST();
-			System.out.println("ssdp:discover : ST = " + st); 
+			System.out.println("ssdp:discover : ST = " + st);
 		}
 		else if (packet.isAlive() == true) {
 			String usn = packet.getUSN();
 			String nt = packet.getNT();
 			String url = packet.getLocation();
-			System.out.println("ssdp:alive : uuid = " + usn + ", NT = " + nt + ", location = " + url); 
+			System.out.println("ssdp:alive : uuid = " + usn + ", NT = " + nt + ", location = " + url);
 		}
 		else if (packet.isByeBye() == true) {
 			String usn = packet.getUSN();
 			String nt = packet.getNT();
-			System.out.println("ssdp:byebye : uuid = " + usn + ", NT = " + nt); 
+			System.out.println("ssdp:byebye : uuid = " + usn + ", NT = " + nt);
 		}
+		System.out.println(">>");
 	}
-	
+
+	/**
+	 * @Note 控制点发起搜索,设备响应,控制点监听
+	 * @param packet
+     */
 	public void deviceSearchResponseReceived(SSDPPacket packet)
 	{
 		String uuid = packet.getUSN();
 		String st = packet.getST();
 		String url = packet.getLocation();
-		System.out.println("device search res : uuid = " + uuid + ", ST = " + st + ", location = " + url); 
+		System.out.println("device search res : uuid = " + uuid + ", ST = " + st + ", location = " + url);
 	}
 	
 	public void eventNotifyReceived(String uuid, long seq, String name, String value)
 	{
-		System.out.println("event notify : uuid = " + uuid + ", seq = " + seq + ", name = " + name + ", value =" + value); 
+		System.out.println("event notify : uuid = " + uuid + ", seq = " + seq + ", name = " + name + ", value =" + value);
 	}
 
 	////////////////////////////////////////////////
@@ -72,6 +82,6 @@ public class UpnpDump extends ControlPoint implements NotifyListener, EventListe
 	{
 		UpnpDump upnpDump = new UpnpDump();
 		upnpDump.start();
-		upnpDump.search();
+//		upnpDump.search();
 	}
 }

@@ -95,7 +95,7 @@ public class SSDPRequest extends HTTPRequest
 	}
 
 	////////////////////////////////////////////////
-	//	CacheControl
+	//	CacheControl	@Note 设置http header 中的max-age=的值大小,用于给客户端判别有效期
 	////////////////////////////////////////////////
 
 	public void setLeaseTime(int len)

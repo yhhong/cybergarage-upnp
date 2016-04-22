@@ -15,6 +15,9 @@
 
 package org.cybergarage.upnp.device;
 
+/**
+ * @Note 通知消息的子类型，为ssdp:alive 或 ssdp:byebye
+ */
 public class NTS 
 {
 	public final static String ALIVE = "ssdp:alive";

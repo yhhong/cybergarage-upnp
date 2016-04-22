@@ -18,7 +18,7 @@ package org.cybergarage.upnp.control;
 public class Control
 {
 	public final static String NS = "u";
-	public final static String QUERY_SOAPACTION = "urn:schemas-upnp-org:control-1-0#QueryStateVariable";
+	public final static String QUERY_SOAP_ACTION = "urn:schemas-upnp-org:control-1-0#QueryStateVariable";
 	public final static String XMLNS = "urn:schemas-upnp-org:control-1-0";
 	public final static String QUERY_STATE_VARIABLE = "QueryStateVariable";
 	public final static String QUERY_STATE_VARIABLE_RESPONSE = "QueryStateVariableResponse";

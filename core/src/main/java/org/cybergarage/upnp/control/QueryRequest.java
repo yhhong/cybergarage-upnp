@@ -40,7 +40,7 @@ public class QueryRequest extends ControlRequest
 	}
 
 	////////////////////////////////////////////////
-	//	Qyery
+	//	Qyery	@Note 根据StateVariable
 	////////////////////////////////////////////////
 
 	private Node getVarNameNode()
@@ -85,7 +85,7 @@ public class QueryRequest extends ControlRequest
 		bodyNode.addNode(qeuryNode);
 		setContent(envNode);
 
-		setSOAPAction(Control.QUERY_SOAPACTION);
+		setSOAPAction(Control.QUERY_SOAP_ACTION);
 	}
 
 	////////////////////////////////////////////////

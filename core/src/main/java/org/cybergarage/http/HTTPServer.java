@@ -119,7 +119,7 @@ public class HTTPServer implements Runnable
 
 	/**
 	 * Set the current socket timeout
-	 * @param longout new timeout
+	 * @param timeout
 	 * @since 1.8
 	 */
 	public synchronized void setTimeout(int timeout) {
@@ -136,7 +136,13 @@ public class HTTPServer implements Runnable
 		}
 		return true;
 	}
-	
+
+	/**
+	 * @Note
+	 * @param addr
+	 * @param port
+     * @return
+     */
 	public boolean open(String addr, int port)
 	{
 		if (serverSock != null)
@@ -189,7 +195,7 @@ public class HTTPServer implements Runnable
 	}
 
 	////////////////////////////////////////////////
-	//	httpRequest
+	//	httpRequest	@Note 接收到client的HTTP请求,此时可执行业务处理
 	////////////////////////////////////////////////
 
 	private ListenerList httpRequestListenerList = new ListenerList();
@@ -209,7 +215,7 @@ public class HTTPServer implements Runnable
 		int listenerSize = httpRequestListenerList.size();
 		for (int n=0; n<listenerSize; n++) {
 			HTTPRequestListener listener = (HTTPRequestListener)httpRequestListenerList.get(n);
-			listener.httpRequestRecieved(httpReq);
+			listener.httpRequestReceived(httpReq);
 		}
 	}		
 	
@@ -230,18 +236,17 @@ public class HTTPServer implements Runnable
 			Thread.yield();
 			Socket sock;
 			try {
-				Debug.message("accept ...");
+				Debug.message("[HTTPServer.java] 堵塞监听HTTP请求 ServerSocket accept ..." + serverSock.getLocalSocketAddress());
 				sock = accept();
 				if (sock != null)
-					Debug.message("sock = " + sock.getRemoteSocketAddress());
+					Debug.message("[HTTPServer.java] 接收到HTTP请求,远程请求地址 : " + sock.getRemoteSocketAddress()+ ",创建子线程专门处理该请求, create a httpServerThread ...");
 			}
 			catch (Exception e){
 				Debug.warning(e);
 				break;
 			}
-			HTTPServerThread httpServThread = new HTTPServerThread(this, sock);
-			httpServThread.start(); 
-			Debug.message("httpServThread ...");
+			HTTPServerThread httpServerThread = new HTTPServerThread(this, sock);
+			httpServerThread.start();
 		}
 	}
 	

@@ -15,6 +15,9 @@
 
 package org.cybergarage.xml;
 
+/**
+ * @Note 属性,包含name和value
+ */
 public class Attribute 
 {
 	private String name = new String(); 

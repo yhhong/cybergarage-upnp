@@ -36,7 +36,7 @@ public final class Debug{
 	}
 	
 	
-	public static boolean enabled = false;
+	public static boolean enabled = true;
 
 	public static Debug getDebug(){
 		return Debug.debug;

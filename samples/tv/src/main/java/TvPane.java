@@ -53,8 +53,8 @@ public class TvPane extends JPanel  // MouseListener
 	//	Background
 	////////////////////////////////////////////////
 
-	private final static String TV_PANEL_IMAGE = "images/tv.jpg";
-	private final static String TV_ON_IMAGE = "images/tvon.jpg";
+	private final static String TV_PANEL_IMAGE = "/Users/yinghuihong/GIT/JAVA/CyberLink4Java/samples/tv/src/main/resources/images/tv.jpg";
+	private final static String TV_ON_IMAGE = "/Users/yinghuihong/GIT/JAVA/CyberLink4Java/samples/tv/src/main/resources/images/tvon.jpg";
 
 	private BufferedImage panelmage;
 	private BufferedImage tvOnImage;

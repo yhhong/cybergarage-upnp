@@ -176,8 +176,8 @@ public class SOAPRequest extends HTTPRequest
 	
 	public void print()
 	{
-		Debug.message(toString());
-		if (hasContent() == true)
+		Debug.message("[SOAPRequest.java] 控制/查询请求,内容:\n" + toString());
+		if (hasContent())
 			return;
 		Node rootElem = getRootNode();
 		if (rootElem == null)

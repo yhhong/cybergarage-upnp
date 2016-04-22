@@ -18,16 +18,19 @@ import org.cybergarage.upnp.*;
 import org.cybergarage.upnp.Action;
 import org.cybergarage.upnp.Icon;
 
+/**
+ * @Note GUI
+ */
 public class CtrlPointPane extends JPanel  implements MouseListener
 {
 	private CtrlPoint ctrlPoint;
-	
+
 	public CtrlPointPane(CtrlPoint ctrlPoint)
 	{
 		setLayout(new BorderLayout());
-		
+
 		this.ctrlPoint = ctrlPoint;
-		
+
 		TreeNode root  = new TreeNode("root");
 
 		JSplitPane mainSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, false);
@@ -35,15 +38,15 @@ public class CtrlPointPane extends JPanel  implements MouseListener
 
 		devSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, false);
 		mainSplitPane.setTopComponent(devSplitPane);
-		
-		// Device Tree		
+
+		// Device Tree
 		deviceTree  = new TreeComp(root);
 		deviceTree.addMouseListener(this);
 		JScrollPane devScrPane = new JScrollPane(deviceTree);
 		devScrPane.setPreferredSize(new Dimension(CtrlPoint.DEFAULT_WIDTH/2,CtrlPoint.DEFAULT_HEIGHT/4*3));
 		devSplitPane.setLeftComponent(devScrPane);
 
-		// Element		
+		// Element
 		JPanel dummyPane = new JPanel();
 		devSplitPane.setRightComponent(dummyPane);
 
@@ -67,7 +70,7 @@ public class CtrlPointPane extends JPanel  implements MouseListener
 	////////////////////////////////////////////////
 
 	private JSplitPane devSplitPane;
-	
+
 	private JSplitPane getDeviceSplitPane()
 	{
 		return devSplitPane;
@@ -79,11 +82,15 @@ public class CtrlPointPane extends JPanel  implements MouseListener
 
 	private JTextArea consoleArea;
 	private JScrollPane consoleScrPane;
-	
+
 	public JTextArea getConsoleArea() {
 		return consoleArea;
 	}
-	
+
+    /**
+     * @Note 底部控制台日志输出
+     * @param str
+     */
 	public void printConsole(String str)
 	{
 		consoleArea.append(str + "\n");
@@ -96,20 +103,24 @@ public class CtrlPointPane extends JPanel  implements MouseListener
 	{
 		consoleArea.setText("");
 	}
-	
+
 	////////////////////////////////////////////////
 	//	TreeComp
 	////////////////////////////////////////////////
 
 	private TreeComp deviceTree;
-	
+
+	/**
+	 * @Note 对外提供的接口,用于增删左侧设备列表
+	 * @return
+     */
 	public TreeComp getTreeComp()
 	{
 		return deviceTree;
 	}
 
 	////////////////////////////////////////////////
-	//	mouse
+	//	mouse	@Note 鼠标点击触发
 	////////////////////////////////////////////////
 
 	public void mouseClicked(MouseEvent e)
@@ -117,19 +128,19 @@ public class CtrlPointPane extends JPanel  implements MouseListener
 		if (e.getComponent() == getTreeComp())
 			deviceTreeClicked(e);
 	}
-	
+
  	public void mouseEntered(MouseEvent e)
  	{
  	}
- 	
+
  	public void mouseExited(MouseEvent e)
  	{
  	}
- 	
+
  	public void mousePressed(MouseEvent e)
  	{
  	}
- 	
+
 	public void mouseReleased(MouseEvent e)
 	{
 	}
@@ -146,17 +157,17 @@ public class CtrlPointPane extends JPanel  implements MouseListener
 		newComp.setSize(currComp.getSize());
 		spane.setRightComponent(newComp);
 	}
-	
+
 	public void deviceTreeClicked(MouseEvent e)
 	{
 		TreePath path = getTreeComp().getPathForLocation(e.getX(), e.getY());
 		if (path == null)
 			return;
-			
+
 		Object lastComp = path.getLastPathComponent();
-		
+
 		//System.out.println("lastComp = " + lastComp);
-				
+
 		if (lastComp instanceof TreeNode) {
 			TreeNode devTreeNode = (TreeNode)lastComp;
 			Object data = devTreeNode.getUserData();

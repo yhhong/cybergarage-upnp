@@ -37,6 +37,9 @@ import org.cybergarage.http.*;
 import org.cybergarage.upnp.*;
 import org.cybergarage.upnp.device.*;
 
+/**
+ * @Note Control Point side
+ */
 public class SubscriptionRequest extends HTTPRequest
 {
 	////////////////////////////////////////////////
@@ -104,6 +107,12 @@ public class SubscriptionRequest extends HTTPRequest
 		setTimeout(timeout);
 	}
 
+	/**
+	 * @Note 配置为"订阅服务"
+	 * @param service
+	 * @param uuid
+	 * @param timeout
+     */
 	public void setRenewRequest(Service service, String uuid, long timeout)
 	{
 		setMethod(Subscription.SUBSCRIBE_METHOD);
@@ -112,6 +121,10 @@ public class SubscriptionRequest extends HTTPRequest
 		setTimeout(timeout);
 	}
 
+	/**
+	 * @Note 配置为"取消订阅服务"
+	 * @param service
+     */
 	public void setUnsubscribeRequest(Service service)
 	{
 		setMethod(Subscription.UNSUBSCRIBE_METHOD);
@@ -210,7 +223,7 @@ public class SubscriptionRequest extends HTTPRequest
 	}
 
 	////////////////////////////////////////////////
-	//	post
+	//	post	@Note 发送HTTP请求,将响应封装为SubscriptionResponse
 	////////////////////////////////////////////////
 
 	public SubscriptionResponse post()

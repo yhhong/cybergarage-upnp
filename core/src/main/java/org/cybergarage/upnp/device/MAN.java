@@ -15,6 +15,9 @@
 
 package org.cybergarage.upnp.device;
 
+/**
+ * @Note 设置协议查询的类型，必须是：ssdp:discover
+ */
 public class MAN 
 {
 	public final static String DISCOVER = "ssdp:discover";

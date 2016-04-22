@@ -40,6 +40,7 @@ import org.cybergarage.upnp.*;
 /**
  * 
  * This class identifies a SSDP socket only for <b>notifing packet</b>.<br>
+ *     @Note Control Point side
  * 
  * @author Satoshi "skonno" Konno
  * @author Stefano "Kismet" Lenzi
@@ -92,7 +93,7 @@ public class SSDPNotifySocket extends HTTPMUSocket implements Runnable
 	public boolean post(SSDPNotifyRequest req)
 	{
 		String ssdpAddr = SSDP.ADDRESS;
-		if (useIPv6Address == true)
+		if (useIPv6Address)
 			ssdpAddr = SSDP.getIPv6Address();
 		req.setHost(ssdpAddr, SSDP.PORT);
 		return post((HTTPRequest)req);
@@ -116,6 +117,7 @@ public class SSDPNotifySocket extends HTTPMUSocket implements Runnable
 			// Thanks for Kazuyuki Shudo (08/23/07)
 			SSDPPacket packet = null;
 			try {
+				Debug.message("[SSDPNotifySocket.java] 堵塞监听多播地址的消息中 (监听'设备通知消息') MulticastSocket receive ..." + getSocket().getLocalAddress() +":" + getSocket().getLocalPort());
 				packet = receive();
 			}
 			catch (IOException e) { 
@@ -129,16 +131,24 @@ public class SSDPNotifySocket extends HTTPMUSocket implements Runnable
 			// Thanks for Inma (02/20/04)
 			InetAddress maddr = getMulticastInetAddress();
 			InetAddress pmaddr = packet.getHostInetAddress();
-			if (maddr.equals(pmaddr) == false) {
+			if (!maddr.equals(pmaddr)) {
 				Debug.warning("Invalidate Multicast Received from IP " + maddr + " on " + pmaddr);
 				continue;
 			}
 			//TODO Must be performed on a different Thread in order to prevent UDP packet losses.
-			if (ctrlPoint != null)
-				ctrlPoint.notifyReceived(packet); 
+			if (ctrlPoint != null) {
+//				if (packet.isDiscover()){	//@Note add by yinghuihong, '设备发现消息'是ControlPoint自己发的,所以可忽略
+//					continue;
+//				}
+				Debug.message("[SSDPNotifySocket.java] 监听到多播地址发来的消息 (监听'设备通知消息') NotifyReceived, SSDPPacket:\n" + packet.toString());
+				ctrlPoint.notifyReceived(packet);
+			}
 		}
 	}
-	
+
+	/**
+	 * @Note 另起线程,监听与接收"设备发出的通知消息"
+	 */
 	public void start(){
 		StringBuffer name = new StringBuffer("Cyber.SSDPNotifySocket/");
 		String localAddr = this.getLocalAddress();

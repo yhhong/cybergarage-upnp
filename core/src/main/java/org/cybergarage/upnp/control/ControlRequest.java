@@ -69,7 +69,7 @@ public class ControlRequest extends SOAPRequest
 
 	public boolean isQueryControl()
 	{
-		return isSOAPAction(Control.QUERY_SOAPACTION);
+		return isSOAPAction(Control.QUERY_SOAP_ACTION);
 	}
 	
 	public boolean isActionControl()

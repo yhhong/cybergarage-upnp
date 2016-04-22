@@ -19,5 +19,5 @@ import org.cybergarage.http.HTTPRequest;
 
 public interface PresentationListener
 {
-	public void httpRequestRecieved(HTTPRequest httpReq);
+	public void httpRequestReceived(HTTPRequest httpReq);
 }

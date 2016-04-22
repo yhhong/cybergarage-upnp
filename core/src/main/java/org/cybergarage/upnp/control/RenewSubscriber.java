@@ -18,6 +18,9 @@ package org.cybergarage.upnp.control;
 import org.cybergarage.util.*;
 import org.cybergarage.upnp.*;
 
+/**
+ * @Note Control Point side 发起的
+ */
 public class RenewSubscriber extends ThreadCore
 {
 	public final static long INTERVAL = 120;

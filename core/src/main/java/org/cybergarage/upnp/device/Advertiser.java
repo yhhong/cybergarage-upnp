@@ -12,7 +12,7 @@
 *		- first revision.
 *	06/18/04
 *		- Changed to advertise every 25%-50% of the periodic notification cycle for NMPR;
-*	
+*
 ******************************************************************/
 
 package org.cybergarage.upnp.device;
@@ -20,6 +20,9 @@ package org.cybergarage.upnp.device;
 import org.cybergarage.util.*;
 import org.cybergarage.upnp.*;
 
+/**
+ * @Note "刊登广告的客户"————广播
+ */
 public class Advertiser extends ThreadCore
 {
 	////////////////////////////////////////////////
@@ -30,7 +33,7 @@ public class Advertiser extends ThreadCore
 	{
 		setDevice(dev);
 	}
-	
+
 	////////////////////////////////////////////////
 	//	Member
 	////////////////////////////////////////////////
@@ -41,7 +44,7 @@ public class Advertiser extends ThreadCore
 	{
 		device = dev;
 	}
-	
+
 	public Device getDevice()
 	{
 		return device;
@@ -50,15 +53,16 @@ public class Advertiser extends ThreadCore
 	////////////////////////////////////////////////
 	//	Thread
 	////////////////////////////////////////////////
-	
-	public void run() 
+
+	public void run()
 	{
 		Device dev = getDevice();
 		long leaseTime = dev.getLeaseTime();
 		long notifyInterval;
-		while (isRunnable() == true) {
-			notifyInterval = (leaseTime/4) + (long)((float)leaseTime * (Math.random() * 0.25f));
-			notifyInterval *= 1000;
+		while (isRunnable()) {
+//			notifyInterval = (leaseTime/4) + (long)((float)leaseTime * (Math.random() * 0.25f)); // @Note Math.random() < 1; leaseTime/4 < notifyInterval < leaseTime/2
+			notifyInterval = leaseTime;
+			notifyInterval *= 1000; // @Note 按照默认leaseTime值为30 * 60,则notifyInterval将在7.5分钟到15分钟之间
 			try {
 				Thread.sleep(notifyInterval);
 			} catch (InterruptedException e) {}

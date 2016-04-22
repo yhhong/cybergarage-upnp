@@ -29,6 +29,7 @@ import java.net.URL;
 import org.cybergarage.http.HTTP;
 import org.cybergarage.http.HTTPRequest;
 import org.cybergarage.http.HTTPResponse;
+import org.cybergarage.util.Debug;
 
 public abstract class Parser 
 {
@@ -47,7 +48,7 @@ public abstract class Parser
 	public abstract Node parse(InputStream inStream) throws ParserException;
 
 	////////////////////////////////////////////////
-	//	parse (URL)
+	//	parse (URL)	@Note 网络请求资源
 	////////////////////////////////////////////////
 
 	public Node parse(URL locationURL) throws ParserException
@@ -66,9 +67,11 @@ public abstract class Parser
 			if (host != null)
 				urlCon.setRequestProperty(HTTP.HOST, host);
 
+			Debug.message("[Parser.java] 请求description.xml文件,GET方式,Host URL:" + urlCon.getURL());
 			InputStream urlIn = urlCon.getInputStream();
 
 			Node rootElem = parse(urlIn);
+			Debug.message("[Parser.java] 成功获取到description.xml文件,转换为Node对象:\n" + rootElem.toString());
 			
 			urlIn.close();
 			urlCon.disconnect();
@@ -79,11 +82,12 @@ public abstract class Parser
 			//throw new ParserException(e);
 		}
 
+		// @Note 上面请求导致异常,才会执行下面代码;通常不会异常
 		HTTPRequest httpReq = new HTTPRequest();
 		httpReq.setMethod(HTTP.GET);
 		httpReq.setURI(uri);
 		HTTPResponse httpRes = httpReq.post(host, port);
-		if (httpRes.isSuccessful() == false)
+		if (!httpRes.isSuccessful())
 			throw new ParserException("HTTP comunication failed: no answer from peer." +
 					"Unable to retrive resoure -> "+locationURL.toString());
 		String content = new String(httpRes.getContent());

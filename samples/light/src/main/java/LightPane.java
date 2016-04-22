@@ -23,8 +23,8 @@ public class LightPane extends JPanel
 	//	Images
 	////////////////////////////////////////////////
 
-	private final static String LIGHT_ON_PANEL_IMAGE = "images/lighton.jpg";
-	private final static String LIGHT_OFF_PANEL_IMAGE = "images/lightoff.jpg";
+	private final static String LIGHT_ON_PANEL_IMAGE = "/Users/yinghuihong/GIT/JAVA/CyberLink4Java/samples/light/src/main/resources/images/lighton.jpg";
+	private final static String LIGHT_OFF_PANEL_IMAGE = "/Users/yinghuihong/GIT/JAVA/CyberLink4Java/samples/light/src/main/resources/images/lightoff.jpg";
 	
 	////////////////////////////////////////////////
 	//	Constructor
@@ -102,7 +102,7 @@ public class LightPane extends JPanel
 	public void paint(Graphics g)
 	{
 		LightDevice dev = getDevice();
-		if (dev.isOn() == true)
+		if (dev.isOn())
 			loadImage(LIGHT_ON_PANEL_IMAGE);
 		else
 			loadImage(LIGHT_OFF_PANEL_IMAGE);

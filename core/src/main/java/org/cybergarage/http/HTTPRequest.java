@@ -96,7 +96,7 @@ public class HTTPRequest extends HTTPPacket
 	}
 
 	////////////////////////////////////////////////
-	//	Method
+	//	Method	@Note 判断http请求方式(post/get/head/subscribe/unsubscribe/notify)
 	////////////////////////////////////////////////
 
 	private String method = null;
@@ -210,7 +210,7 @@ public class HTTPRequest extends HTTPPacket
 	}
 	
 	////////////////////////////////////////////////
-	//	SOAPAction
+	//	SOAPAction	@Note 判断是否为"远程控制命令"
 	////////////////////////////////////////////////
 
 	public boolean isSOAPAction()
@@ -354,7 +354,7 @@ public class HTTPRequest extends HTTPPacket
 	}
 	
 	////////////////////////////////////////////////
-	//	POST (Response)
+	//	POST (Response)	@Note 作为server角色,对接收的HTTP请求进行响应
 	////////////////////////////////////////////////
 
 	public boolean post(HTTPResponse httpRes)
@@ -362,7 +362,7 @@ public class HTTPRequest extends HTTPPacket
 		HTTPSocket httpSock = getSocket();
 		long offset = 0;
 		long length = httpRes.getContentLength();
-		if (hasContentRange() == true) {
+		if (hasContentRange()) {
 			long firstPos = getContentRangeFirstPosition();
 			long lastPos = getContentRangeLastPosition();
 
@@ -382,7 +382,7 @@ public class HTTPRequest extends HTTPPacket
 	}
 
 	////////////////////////////////////////////////
-	//	POST (Request)
+	//	POST (Request)	@Note 作为client角色,发起POST请求
 	////////////////////////////////////////////////
 	
 	private Socket postSocket = null;
@@ -393,7 +393,7 @@ public class HTTPRequest extends HTTPPacket
 
 		setHost(host);
 		
-		setConnection((isKeepAlive == true) ? HTTP.KEEP_ALIVE : HTTP.CLOSE);
+		setConnection((isKeepAlive) ? HTTP.KEEP_ALIVE : HTTP.CLOSE);
 		
 		boolean isHeaderRequest = isHeadRequest();
 		
@@ -522,6 +522,6 @@ public class HTTPRequest extends HTTPPacket
 
 	public void print()
 	{
-		System.out.println(toString());
+		System.out.println("[HTTPRequest.java] request content:\n" + toString());
 	}
 }

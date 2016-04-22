@@ -331,14 +331,14 @@ public class Action
 		ActionResponse actionRes = new ActionResponse();
 		setStatus(UPnPStatus.INVALID_ACTION);
 		clearOutputAgumentValues();
-		if (listener.actionControlReceived(this) == true) {
-			actionRes.setResponse(this);
+		if (listener.actionControlReceived(this)) { // @Note 给上层处理
+			actionRes.setResponse(this);			// @Note 该action作为响应数据
 		}
 		else {
 			UPnPStatus upnpStatus = getStatus();
 			actionRes.setFaultResponse(upnpStatus.getCode(), upnpStatus.getDescription());
 		}
-		if (Debug.isOn() == true)
+		if (Debug.isOn())
 			actionRes.print();
 		actionReq.post(actionRes);
 		return true;

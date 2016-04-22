@@ -1,74 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.cybergarage.upnp</groupId>
-  <artifactId>cybergarage-upnp-core</artifactId>
-  <packaging>jar</packaging>
-  <version>2.1.1</version>
-  <name>cybergarage-upnp Core</name>
-  <description>A pure Java Open Source implementation of the UPnP stack</description>
-  <url>http://www.cybergarage.org/</url>
-  
-  <licenses>
-  	<license>
-  		<name>BSD</name>
-  		<url>https://github.com/cybergarage/cybergarage-upnp/blob/master/LICENSE.txt</url>
-  	</license>
-  </licenses>
-  
-  <scm>
-  	<connection>scm:git:https://github.com/cybergarage/cybergarage-upnp.git</connection>
-  	<developerConnection>scm:git:https://github.com/cybergarage/cybergarage-upnp.git</developerConnection>
-  	<url>https://github.com/cybergarage/cybergarage-upnp/blob/master/core</url>
-  </scm>
-  
-  <developers />
+    <parent>
+        <artifactId>cybergarage-upnp</artifactId>
+        <groupId>org.cybergarage.upnp</groupId>
+        <relativePath>../</relativePath>
+        <version>${cybergarage-upnp.version}</version>
+    </parent>
 
-  <contributors />
-  
-  <properties>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
-  </properties>
-  
-  <dependencies>
-    <dependency>
-      <groupId>net.sf.kxml</groupId>
-      <artifactId>kxml2</artifactId>
-      <version>2.1.8</version>
-    </dependency>
-    <dependency>
-      <groupId>xerces</groupId>
-      <artifactId>xercesImpl</artifactId>
-      <version>2.8.1</version>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>cybergarage-upnp-core</artifactId>
+    <packaging>jar</packaging>
+    <version>${cybergarage-upnp.version}</version>
+    <name>cybergarage-upnp Core</name>
+    <description>A pure Java Open Source implementation of the UPnP stack</description>
+    <url>http://www.cybergarage.org/</url>
 
-  <distributionManagement>
-    <repository>
-      <id>org.cybergarage</id>
-      <name>Cyber Garage Maven Repository</name>
-      <url>file:///var/www/maven/repo/</url>
-    </repository>
-  </distributionManagement>
+    <licenses>
+        <license>
+            <name>BSD</name>
+            <url>https://github.com/cybergarage/cybergarage-upnp/blob/master/LICENSE.txt</url>
+        </license>
+    </licenses>
 
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-deploy-plugin</artifactId>
-        <configuration>
-          <skip>false</skip>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+    <scm>
+        <connection>scm:git:https://github.com/cybergarage/cybergarage-upnp.git</connection>
+        <developerConnection>scm:git:https://github.com/cybergarage/cybergarage-upnp.git</developerConnection>
+        <url>https://github.com/cybergarage/cybergarage-upnp/blob/master/core</url>
+    </scm>
+
+    <developers/>
+
+    <contributors/>
+
+    <properties>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>net.sf.kxml</groupId>
+            <artifactId>kxml2</artifactId>
+            <version>2.1.8</version>
+        </dependency>
+        <dependency>
+            <groupId>xerces</groupId>
+            <artifactId>xercesImpl</artifactId>
+            <version>2.8.1</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <distributionManagement>
+        <!--<repository>-->
+        <!--<id>org.cybergarage</id>-->
+        <!--<name>Cyber Garage Maven Repository</name>-->
+        <!--<url>file:///var/www/maven/repo/</url>-->
+        <!--</repository>-->
+        <repository>
+            <id>Releases</id>
+            <name>Nexus Release Repository</name>
+            <url>http://10.12.3.22:8088/nexus/content/repositories/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>Snapshots</id>
+            <name>Nexus Snapshot Repository</name>
+            <url>http://10.12.3.22:8088/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <skip>false</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

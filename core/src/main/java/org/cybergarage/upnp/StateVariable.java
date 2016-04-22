@@ -161,7 +161,11 @@ public class StateVariable extends NodeData
 	{
 		getStateVariableNode().setAttribute(SENDEVENTS, (state == true) ? SENDEVENTS_YES : SENDEVENTS_NO);
 	}
-	
+
+	/**
+	 * @Note 判断是否可以发送事件
+	 * @return yes为true, no为false
+     */
 	public boolean isSendEvents()
 	{
 		String state = getStateVariableNode().getAttributeValue(SENDEVENTS);
@@ -201,7 +205,7 @@ public class StateVariable extends NodeData
 	}
 
 	////////////////////////////////////////////////
-	//	Value
+	//	Value	@Note 更改数值的同时发送事件通知
 	////////////////////////////////////////////////
 
 	public void setValue(String value) 
@@ -209,18 +213,18 @@ public class StateVariable extends NodeData
 		// Thnaks for Tho Beisch (11/09/04)
 		String currValue = getStateVariableData().getValue();
 		// Thnaks for Tho Rick Keiner (11/18/04)
-		if (currValue != null && currValue.equals(value) == true)
+		if (currValue != null && currValue.equals(value))// @Note 与当前的数值相同,则直接返回(不会发送通知给订阅者,注意:远程控制者不同于订阅者,远程控制依然需要得到反馈结果)
 			return;
 		
-		getStateVariableData().setValue(value);
+		getStateVariableData().setValue(value);// @Note 更改数值
 		
 		// notify event
 		Service service = getService();
 		if (service == null)
 			return;
-		if (isSendEvents() == false)
+		if (isSendEvents() == false)// @Note 判断是否可以发送事件
 			return;
-		service.notify(this);
+		service.notify(this);// @Note 发送通知
 	}
 
 	public void setValue(int value)
@@ -356,16 +360,16 @@ public class StateVariable extends NodeData
 		if (listener == null)
 			return false;
 		QueryResponse queryRes = new QueryResponse();
-		StateVariable retVar = new StateVariable();
-		retVar.set(this);
-		retVar.setValue("");
-		retVar.setStatus(UPnPStatus.INVALID_VAR);
-		if (listener.queryControlReceived(retVar) == true) {
-			queryRes.setResponse(retVar);
+		StateVariable stateVariable = new StateVariable();
+		stateVariable.set(this);
+		stateVariable.setValue("");
+		stateVariable.setStatus(UPnPStatus.INVALID_VAR);
+		if (listener.queryControlReceived(stateVariable)) { // @Note handle
+			queryRes.setResponse(stateVariable);			// @Note 作为返回数据
 		}
 		else {
-			UPnPStatus upnpStatus = retVar.getStatus();
-			queryRes.setFaultResponse(upnpStatus.getCode(), upnpStatus.getDescription());
+			UPnPStatus upnpStatus = stateVariable.getStatus();
+			queryRes.setFaultResponse(upnpStatus.getCode(), upnpStatus.getDescription());	// @Note 失败的情况
 		}
 		queryReq.post(queryRes);
 		return true;

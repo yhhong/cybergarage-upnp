@@ -23,6 +23,7 @@ import java.util.*;
 import org.cybergarage.net.*;
 
 import org.cybergarage.upnp.*;
+import org.cybergarage.util.Debug;
 
 public class SSDPSearchResponseSocketList extends Vector 
 {
@@ -89,9 +90,11 @@ public class SSDPSearchResponseSocketList extends Vector
 			}
 		}		
 		try {
-			for (int j = 0; j < bindAddresses.length; j++) {				
-				SSDPSearchResponseSocket socket = new SSDPSearchResponseSocket(bindAddresses[j], port);
-				add(socket);
+			for (int j = 0; j < bindAddresses.length; j++) {
+				if (HostInterface.isIPv4Address(bindAddresses[j])) {	//@Note modify by yinghuihong, 限制为只在IP地址为IP4的情况,减少创建不必要的线程
+					SSDPSearchResponseSocket socket = new SSDPSearchResponseSocket(bindAddresses[j], port);
+					add(socket);
+				}
 			}
 		}catch (Exception e) {
 			stop();
@@ -126,7 +129,7 @@ public class SSDPSearchResponseSocketList extends Vector
 		int nSockets = size();
 		for (int n=0; n<nSockets; n++) {
 			SSDPSearchResponseSocket sock = getSSDPSearchResponseSocket(n);
-			sock.start();
+			sock.start();	//@Note 为获取到的每个ip(IP4或者IP6,这里有三个IP6,一个IP4的)都创建了线程.. 用于监听"设备发现消息响应"
 		}
 	}
 
@@ -140,23 +143,30 @@ public class SSDPSearchResponseSocketList extends Vector
 	}
 
 	////////////////////////////////////////////////
-	//	Methods
+	//	Methods	@Note Control Point 发起搜索请求
 	////////////////////////////////////////////////
 
 	public boolean post(SSDPSearchRequest req)
 	{
 		boolean ret = true;
-		int nSockets = size();
-		for (int n=0; n<nSockets; n++) {
-			SSDPSearchResponseSocket sock = getSSDPSearchResponseSocket(n);
-			String bindAddr = sock.getLocalAddress();
-			req.setLocalAddress(bindAddr);
+		int size = size();
+		Debug.message("[SSDPSearchResponseSocketList.java] 发送单播'设备发现消息' POST SSDPSearchRequest, sockets size is "+ size);
+		for (int n=0; n < size; n++) {
+			SSDPSearchResponseSocket sock = getSSDPSearchResponseSocket(n);	// @Note 为什么有n个?开始时是怎么来的呢?通过获取局域网的ip构造的?
+			String sockLocalAddress = sock.getLocalAddress();
+//			Debug.message("[SSDPSearchResponseSocketList.java] socket " + n + " localAddress "+ sock.getLocalAddress() + ":" + sock.getLocalPort());
+			req.setLocalAddress(sockLocalAddress);
 			String ssdpAddr = SSDP.ADDRESS;
-			if (HostInterface.isIPv6Address(bindAddr) == true)
+			if (HostInterface.isIPv6Address(sockLocalAddress)){
 				ssdpAddr = SSDP.getIPv6Address();
+//				Debug.message("[SSDPSearchResponseSocketList.java] socket " + n + " address is ipv6, ignore by yinghuihong");
+				continue;
+			}
 			//sock.joinGroup(ssdpAddr, SSDP.PORT, bindAddr);
-			if (sock.post(ssdpAddr, SSDP.PORT, req) == false)
+//			Debug.message("[SSDPSearchResponseSocketList.java] socket " + n + " address is ipv4, execute post");
+			if (!sock.post(ssdpAddr, SSDP.PORT, req)){
 				ret = false;
+			}
 			//sock.leaveGroup(ssdpAddr, SSDP.PORT, bindAddr);
 		}
 		return ret;

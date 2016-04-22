@@ -27,9 +27,12 @@
 
 package org.cybergarage.http;
 
+import org.cybergarage.util.Debug;
+
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.Calendar;
 
 public class HTTPSocket
@@ -153,9 +156,10 @@ public class HTTPSocket
 
 	private boolean post(HTTPResponse httpRes, byte content[], long contentOffset, long contentLength, boolean isOnlyHeader)
 	{
+		Debug.message("[HTTPSocket.java] 发送HTTP post() host: " + socket.getLocalAddress() + ":" + socket.getLocalPort() + " content:\n" + Arrays.toString(content));
 		//TODO Check for bad HTTP agents, this method may be list for IOInteruptedException and for blacklistening
 		httpRes.setDate(Calendar.getInstance());
-		
+
 		OutputStream out = getOutputStream();
 
 		try {
@@ -163,14 +167,14 @@ public class HTTPSocket
 			
 			out.write(httpRes.getHeader().getBytes());
 			out.write(HTTP.CRLF.getBytes());
-			if (isOnlyHeader == true) {
+			if (isOnlyHeader) {
 				out.flush();
 				return true;
 			}
 			
 			boolean isChunkedResponse = httpRes.isChunked();
 			
-			if (isChunkedResponse == true) {
+			if (isChunkedResponse) {
 				// Thanks for Lee Peik Feng <pflee@users.sourceforge.net> (07/07/05)
 				String chunSizeBuf = Long.toHexString(contentLength);
 				out.write(chunSizeBuf.getBytes());
@@ -179,7 +183,7 @@ public class HTTPSocket
 			
 			out.write(content, (int)contentOffset, (int)contentLength);
 			
-			if (isChunkedResponse == true) {
+			if (isChunkedResponse) {
 				out.write(HTTP.CRLF.getBytes());
 				out.write("0".getBytes());
 				out.write(HTTP.CRLF.getBytes());
@@ -197,6 +201,7 @@ public class HTTPSocket
 	
 	private boolean post(HTTPResponse httpRes, InputStream in, long contentOffset, long contentLength, boolean isOnlyHeader)
 	{
+		Debug.message("[HTTPSocket.java] 发送HTTP post() host: " + socket.getLocalAddress() + ":" + socket.getLocalPort() + " inputStream:\n" + in.toString());
 		//TODO Check for bad HTTP agents, this method may be list for IOInteruptedException and for blacklistening
 		httpRes.setDate(Calendar.getInstance());
 		
@@ -208,7 +213,7 @@ public class HTTPSocket
 			out.write(httpRes.getHeader().getBytes());
 			out.write(HTTP.CRLF.getBytes());
 			
-			if (isOnlyHeader == true) {
+			if (isOnlyHeader) {
 				out.flush();
 				return true;
 			}
@@ -256,7 +261,7 @@ public class HTTPSocket
 	public boolean post(HTTPResponse httpRes, long contentOffset, long contentLength, boolean isOnlyHeader)
 	{
 		//TODO Close if Connection != keep-alive
-		if (httpRes.hasContentInputStream() == true)
+		if (httpRes.hasContentInputStream())	// @Note 区分是否带文件流
 			return post(httpRes,httpRes.getContentInputStream(), contentOffset, contentLength, isOnlyHeader);
 		return post(httpRes,httpRes.getContent(), contentOffset, contentLength, isOnlyHeader);
 	}

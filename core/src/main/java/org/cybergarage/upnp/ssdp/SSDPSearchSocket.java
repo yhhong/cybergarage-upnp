@@ -38,6 +38,9 @@ import org.cybergarage.util.*;
 
 import org.cybergarage.upnp.device.*;
 
+/**
+ * @Note 设备端用来监听'设备发现消息'
+ */
 public class SSDPSearchSocket extends HTTPMUSocket implements Runnable
 {
 	private boolean useIPv6Address;
@@ -49,9 +52,9 @@ public class SSDPSearchSocket extends HTTPMUSocket implements Runnable
 
 	/**
 	 * 
-	 * @param bindAddr The address to bind the service
-	 * @param port The port used for accepting message
-	 * @param multicast The multicast address to use as destination
+	 * @param bindAddr The address to bind the service	@Note 用于绑定服务
+	 * @param port The port used for accepting message	@Note 用于接收消息
+	 * @param multicast The multicast address to use as destination	@Note 多路地址作为目的地
 	 * @since 1.8
 	 */
 	public SSDPSearchSocket(String bindAddr,int port,String multicast){
@@ -60,7 +63,7 @@ public class SSDPSearchSocket extends HTTPMUSocket implements Runnable
 
 	/**
 	 * 
-	 * @param bindAddr the binding address for senging multicast packet
+	 * @param bindAddr the binding address for senging multicast packet	@Note 绑定地址用于发送多路报文
 	 * @since 1.8
 	 */
 	public SSDPSearchSocket(InetAddress bindAddr){
@@ -105,7 +108,7 @@ public class SSDPSearchSocket extends HTTPMUSocket implements Runnable
 	{
 		String addr = SSDP.ADDRESS;
 		useIPv6Address = false;
-		if (HostInterface.isIPv6Address(bindAddr) == true) {
+		if (HostInterface.isIPv6Address(bindAddr)) {
 			addr = SSDP.getIPv6Address();
 			useIPv6Address = true;
 		}
@@ -113,7 +116,7 @@ public class SSDPSearchSocket extends HTTPMUSocket implements Runnable
 	}
 	
 	////////////////////////////////////////////////
-	//	deviceSearch
+	//	deviceSearch	@Note 执行搜索,搜索监听者执行相关业务
 	////////////////////////////////////////////////
 
 	private ListenerList deviceSearchListenerList = new ListenerList();
@@ -138,7 +141,7 @@ public class SSDPSearchSocket extends HTTPMUSocket implements Runnable
 	}		
 	
 	////////////////////////////////////////////////
-	//	run	
+	//	run		@Note 执行搜索,socket处于receive状态
 	////////////////////////////////////////////////
 
 	private Thread deviceSearchThread = null;
@@ -153,7 +156,9 @@ public class SSDPSearchSocket extends HTTPMUSocket implements Runnable
 			// Thanks for Kazuyuki Shudo (08/23/07)
 			SSDPPacket packet = null;
 			try {
+				Debug.message("[SSDPSearchSocket.java] 堵塞监听多播地址的消息中 (只要'设备发现消息',否则忽略) MulticastSocket receive ..." + getSocket().getLocalAddress() + ":" + getSocket().getLocalPort());
 				packet = receive();
+//				Debug.message("[SSDPSearchSocket.java] MulticastSocket receive:\n"+ packet.toString());// @Note 自己也会受到自己的通知
 			}
 			catch (IOException e) { 
 				break;
@@ -164,8 +169,10 @@ public class SSDPSearchSocket extends HTTPMUSocket implements Runnable
 				continue;
 				
 			//TODO perform delegation with Thread Pooling
-			if (packet.isDiscover() == true)
+			if (packet.isDiscover()) {	//@Note 只处理多播而且为MAN为ssdp:discover的消息
+				Debug.message("[SSDPSearchSocket.java] 监听到'设备发现消息' SSDPPacket:\n"+ packet.toString());
 				performSearchListener(packet);
+			}
 		}
 	}
 	

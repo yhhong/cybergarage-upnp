@@ -19,7 +19,7 @@ import org.cybergarage.upnp.control.*;
 
 public class TvDevice implements ActionListener, QueryListener, NotifyListener, EventListener, SearchResponseListener
 {
-	private final static String DESCRIPTION_FILE_NAME = "description/description.xml";
+	private final static String DESCRIPTION_FILE_NAME = "/Users/yinghuihong/GIT/JAVA/CyberLink4Java/samples/tv/src/main/resources/description/description.xml";
 	
 	private final static String CLOCK_DEVICE_TYPE = "urn:schemas-upnp-org:device:clock:1";
 	private final static String CLOCK_SERVICE_TYPE = "urn:schemas-upnp-org:service:timer:1";
@@ -55,7 +55,9 @@ public class TvDevice implements ActionListener, QueryListener, NotifyListener, 
 		try {
 			tvDev = new Device(DESCRIPTION_FILE_NAME);
 		}
-		catch (InvalidDescriptionException e) {}
+		catch (InvalidDescriptionException e) {
+			e.printStackTrace();
+		}
 
 		tvDev.setSSDPBindAddress(
 				HostInterface.getInetAddress(HostInterface.IPV4_BITMASK, null)

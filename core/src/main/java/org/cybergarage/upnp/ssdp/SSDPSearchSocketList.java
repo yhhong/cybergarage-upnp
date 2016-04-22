@@ -23,7 +23,11 @@ import java.util.Vector;
 
 import org.cybergarage.net.HostInterface;
 import org.cybergarage.upnp.device.SearchListener;
+import org.cybergarage.util.Debug;
 
+/**
+ * @Note 设备端
+ */
 public class SSDPSearchSocketList extends Vector 
 {
 	////////////////////////////////////////////////
@@ -101,11 +105,13 @@ public class SSDPSearchSocketList extends Vector
 		
 		for (int i = 0; i < bindAddresses.length; i++) {
 			if(bindAddresses[i]!=null){
+//				Debug.message("[SSDPSearchSocketList.java] open() bind address : " + bindAddresses[i]);
 				SSDPSearchSocket ssdpSearchSocket;
-				if(HostInterface.isIPv6Address(bindAddresses[i]))
+				if(HostInterface.isIPv6Address(bindAddresses[i])) {
 					ssdpSearchSocket = new SSDPSearchSocket(bindAddresses[i],port ,multicastIPv6 );
-				else
+				} else {
 					ssdpSearchSocket = new SSDPSearchSocket(bindAddresses[i],port,multicastIPv4 );
+				}
 				add(ssdpSearchSocket);
 			}
 		}
@@ -131,6 +137,7 @@ public class SSDPSearchSocketList extends Vector
 		int nSockets = size();
 		for (int n=0; n<nSockets; n++) {
 			SSDPSearchSocket sock = getSSDPSearchSocket(n);
+//			Debug.message("[SSDPSearchSocketList.java] start() local address : " + sock.getLocalAddress());
 			sock.start();
 		}
 	}

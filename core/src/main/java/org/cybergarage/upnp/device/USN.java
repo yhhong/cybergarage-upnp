@@ -15,6 +15,10 @@
 
 package org.cybergarage.upnp.device;
 
+/**
+ * @Note 表示不同服务的统一服务名，它提供了一种标识出相同类型服务的能力
+ * @link http://www.cnblogs.com/debin/archive/2009/12/01/1614543.html
+ */
 public class USN 
 {
 	public final static String ROOTDEVICE = "upnp:rootdevice";

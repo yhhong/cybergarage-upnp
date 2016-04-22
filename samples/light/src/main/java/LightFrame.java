@@ -10,6 +10,8 @@
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.*;
 
@@ -22,6 +24,7 @@ public class LightFrame extends JFrame implements WindowListener
 	private final static String TITLE = "CyberLink Sample Light";
 	private LightDevice lightDev;
 	private LightPane lightPane;
+	private MenuBar menuBar;
 	
 	public LightFrame()
 	{
@@ -35,6 +38,9 @@ public class LightFrame extends JFrame implements WindowListener
 		}
 				
 		getContentPane().setLayout(new BorderLayout());
+
+		menuBar = new MenuBar(lightDev);
+		setJMenuBar(menuBar);
 
 		lightPane = new LightPane();
 		lightPane.setDevice(lightDev);
@@ -98,9 +104,12 @@ public class LightFrame extends JFrame implements WindowListener
 	//	main
 	////////////////////////////////////////////////
 
-	public static void main(String args[]) 
-	{
+	public static void main(String args[]) throws IOException {
 		//Debug.on();
+//		System.out.println(System.getProperty("user.dir"));//user.dir指定了当前的路径
+//		File directory = new File("");//设定为当前文件夹
+//		System.out.println(directory.getCanonicalPath());//获取标准的路径
+//		System.out.println(directory.getAbsolutePath());//获取绝对路径
 		LightFrame sampClock = new LightFrame();
 	}
 

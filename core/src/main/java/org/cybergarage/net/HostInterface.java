@@ -36,6 +36,9 @@ import java.util.Vector;
 
 import org.cybergarage.util.Debug;
 
+/**
+ * @Note 主机接口
+ */
 public class HostInterface
 {
 	////////////////////////////////////////////////
@@ -75,24 +78,33 @@ public class HostInterface
 	////////////////////////////////////////////////
 
 	// Thanks for Theo Beisch (10/27/04)
-	
+
+	/**
+	 * @Note 是否为可用的地址
+	 * @param addr
+	 * @return	true为可用
+     */
 	private final static boolean isUsableAddress(InetAddress addr)
 	{
-		if (USE_LOOPBACK_ADDR == false) {
-			if (addr.isLoopbackAddress() == true)
+		if (!USE_LOOPBACK_ADDR) {
+			if (addr.isLoopbackAddress())
 				return false;
 		}
-		if (USE_ONLY_IPV4_ADDR == true) {
+		if (USE_ONLY_IPV4_ADDR) {
 			if (addr instanceof Inet6Address)
 				return false;
 		}
-		if (USE_ONLY_IPV6_ADDR == true) {
+		if (USE_ONLY_IPV6_ADDR) {
 			if (addr instanceof Inet4Address)
 				return false;
 		}
 		return true;
 	}
-	
+
+	/**
+	 * @Note 获取网络主机地址,整数?
+	 * @return
+     */
 	public final static int getNHostAddresses()
 	{
 		if (hasAssignedInterface() == true)
@@ -106,7 +118,7 @@ public class HostInterface
 				Enumeration addrs = ni.getInetAddresses();
 				while (addrs.hasMoreElements()) {
 					InetAddress addr = (InetAddress)addrs.nextElement();
-					if (isUsableAddress(addr) == false)
+					if (!isUsableAddress(addr))
 						continue;
 					nHostAddrs++;
 				}
@@ -119,7 +131,8 @@ public class HostInterface
 	}
 
 	/**
-	 * 
+	 * @Note InetAddress的起源,用于设备的信息配置
+	 * TODO 可打印看下InetAddress[]的值
 	 * @param ipfilter
 	 * @param interfaces
 	 * @return
@@ -166,11 +179,15 @@ public class HostInterface
 		}
 		return (InetAddress[]) addresses.toArray(new InetAddress[]{});
 	}
-	
-	
+
+	/**
+	 * @Note
+	 * @param n
+	 * @return
+     */
 	public final static String getHostAddress(int n)
 	{
-		if (hasAssignedInterface() == true)
+		if (hasAssignedInterface())
 			return getInterface();
 			
 		int hostAddrCnt = 0;
@@ -181,7 +198,7 @@ public class HostInterface
 				Enumeration addrs = ni.getInetAddresses();
 				while (addrs.hasMoreElements()) {
 					InetAddress addr = (InetAddress)addrs.nextElement();
-					if (isUsableAddress(addr) == false)
+					if (!isUsableAddress(addr))
 						continue;
 					if (hostAddrCnt < n) {
 						hostAddrCnt++;
@@ -235,7 +252,7 @@ public class HostInterface
 		int addrCnt = getNHostAddresses();
 		for (int n=0; n<addrCnt; n++) {
 			String addr = getHostAddress(n);
-			if (isIPv4Address(addr) == true)
+			if (isIPv4Address(addr))
 				return true;
 		}
 		return false;
@@ -246,7 +263,7 @@ public class HostInterface
 		int addrCnt = getNHostAddresses();
 		for (int n=0; n<addrCnt; n++) {
 			String addr = getHostAddress(n);
-			if (isIPv6Address(addr) == true)
+			if (isIPv6Address(addr))
 				return true;
 		}
 		return false;
@@ -261,7 +278,7 @@ public class HostInterface
 		int addrCnt = getNHostAddresses();
 		for (int n=0; n<addrCnt; n++) {
 			String addr = getHostAddress(n);
-			if (isIPv4Address(addr) == true)
+			if (isIPv4Address(addr))
 				return addr;
 		}
 		return "";
@@ -272,20 +289,20 @@ public class HostInterface
 		int addrCnt = getNHostAddresses();
 		for (int n=0; n<addrCnt; n++) {
 			String addr = getHostAddress(n);
-			if (isIPv6Address(addr) == true)
+			if (isIPv6Address(addr))
 				return addr;
 		}
 		return "";
 	}
 
 	////////////////////////////////////////////////
-	//	getHostURL
+	//	getHostURL	@Note URL拼接
 	////////////////////////////////////////////////
 	
 	public final static String getHostURL(String host, int port, String uri)
 	{
 		String hostAddr = host;
-		if (isIPv6Address(host) == true)
+		if (isIPv6Address(host))
 			hostAddr = "[" + host + "]";
 		return 
 			"http://" +

@@ -19,6 +19,8 @@
 
 package org.cybergarage.http;
 
+import org.cybergarage.util.Debug;
+
 import java.io.InputStream;
 
 public class HTTPResponse extends HTTPPacket
@@ -111,6 +113,6 @@ public class HTTPResponse extends HTTPPacket
 
 	public void print()
 	{
-		System.out.println(toString());
+		Debug.message("[HTTPResponse.java] response content:\n" + toString());
 	}
 }

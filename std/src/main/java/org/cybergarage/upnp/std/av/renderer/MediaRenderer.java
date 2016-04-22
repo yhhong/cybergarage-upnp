@@ -170,7 +170,7 @@ public class MediaRenderer extends Device
 	// HttpRequestListner (Overridded)
 	////////////////////////////////////////////////
 	
-	public void httpRequestRecieved(HTTPRequest httpReq)
+	public void httpRequestReceived(HTTPRequest httpReq)
 	{
 		String uri = httpReq.getURI();
 		Debug.message("uri = " + uri);

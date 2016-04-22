@@ -408,12 +408,24 @@ public class Service
     {
     	return getServiceData().getDescriptionURL();
     }
-	
-	
+
+
+	private Node getSCPDNode(InputStream is) throws ParserException
+	{
+		Parser parser = UPnP.getXMLParser();
+		return parser.parse(is);
+	}
+
+	/**
+	 * @Note 通过网络请求SCPD文件,然后解析为Node对象
+	 * @param scpdUrl	SCPD文件的网络地址
+	 * @return
+	 * @throws ParserException
+     */
 	private Node getSCPDNode(URL scpdUrl) throws ParserException
 	{
 		Parser parser = UPnP.getXMLParser();
-		return parser.parse(scpdUrl);
+		return parser.parse(scpdUrl);	//@Note 网络请求service's description.xml
 	}
 	
 	private Node getSCPDNode(File scpdFile) throws ParserException
@@ -425,7 +437,7 @@ public class Service
 	private Node getSCPDNode()
 	{
 		ServiceData data = getServiceData();
-		Node scpdNode = data.getSCPDNode();
+		Node scpdNode = data.getSCPDNode(); // @Note SCPD node 节点,记录描述文件的路径
 		if (scpdNode != null)
 			return scpdNode;
 		
@@ -440,7 +452,7 @@ public class Service
 		String rootDevPath = rootDev.getDescriptionFilePath();
 		if(rootDevPath!=null) {
 			File f;
-			f = new File(rootDevPath.concat(scpdURLStr));
+			f = new File(rootDevPath.concat(scpdURLStr));	// @Note 该service的文件路径
 		
 			if(f.exists()) {
 				try {
@@ -492,13 +504,13 @@ public class Service
 	}
 	
 	////////////////////////////////////////////////
-	//	actionList
+	//	actionList	@Note 获取service下的actionList
 	////////////////////////////////////////////////
 
 	public ActionList getActionList()
 	{
 		ActionList actionList = new ActionList();
-		Node scdpNode = getSCPDNode();
+		Node scdpNode = getSCPDNode();	// @Note 构造scpd
 		if (scdpNode == null)
 			return actionList;
 		Node actionListNode = scdpNode.getNode(ActionList.ELEM_NAME);
@@ -620,7 +632,7 @@ public class Service
 	}
 
 	////////////////////////////////////////////////
-	//	Notify
+	//	Notify	@Note 设备通知消息(alive/byebye/设备发现消息的响应)
 	////////////////////////////////////////////////
 
 	private String getNotifyServiceTypeNT()
@@ -632,7 +644,11 @@ public class Service
 	{
 		return getDevice().getUDN() + "::" + getServiceType();
 	}
-		
+
+	/**
+	 * @Note 宣告在线
+	 * @param bindAddr
+     */
 	public void announce(String bindAddr)
 	{
 		// uuid:device-UUID::urn:schemas-upnp-org:service:serviceType:v 
@@ -656,6 +672,10 @@ public class Service
 		ssdpSock.post(ssdpReq);
 	}
 
+	/**
+	 * @Note say goodbye
+	 * @param bindAddr
+     */
 	public void byebye(String bindAddr)
 	{
 		// uuid:device-UUID::urn:schemas-upnp-org:service:serviceType:v 
@@ -673,6 +693,11 @@ public class Service
 		ssdpSock.post(ssdpReq);
 	}
 
+	/**
+	 * @Note 接收到"设备发现消息",返回该响应
+	 * @param ssdpPacket
+	 * @return
+     */
 	public boolean serviceSearchResponse(SSDPPacket ssdpPacket)
 	{
 		String ssdpST = ssdpPacket.getST();
@@ -685,12 +710,12 @@ public class Service
 		String serviceNT = getNotifyServiceTypeNT();			
 		String serviceUSN = getNotifyServiceTypeUSN();
 		
-		if (ST.isAllDevice(ssdpST) == true) {
+		if  (ST.isAllDevice(ssdpST)) {
 			dev.postSearchResponse(ssdpPacket, serviceNT, serviceUSN);
 		}
-		else if (ST.isURNService(ssdpST) == true) {
+		else if (ST.isURNService(ssdpST)) {
 			String serviceType = getServiceType();
-			if (ssdpST.equals(serviceType) == true)
+			if (ssdpST.equals(serviceType))
 				dev.postSearchResponse(ssdpPacket, serviceType, serviceUSN);
 		}
 		
@@ -747,6 +772,12 @@ public class Service
 		return null;
 	}
 
+	/**
+	 * @Note 通知订阅者最新状态
+	 * @param sub 订阅者
+	 * @param stateVar 状态
+     * @return
+     */
 	private boolean notify(Subscriber sub, StateVariable stateVar)
 	{
 		String varName = stateVar.getName();
@@ -758,8 +789,8 @@ public class Service
 		NotifyRequest notifyReq = new NotifyRequest();
 		notifyReq.setRequest(sub, varName, value);
 		
-		HTTPResponse res = notifyReq.post(host, port);
-		if (res.isSuccessful() == false)
+		HTTPResponse res = notifyReq.post(host, port);// @Note POST http request
+		if (!res.isSuccessful())
 			return false;
 			
 		sub.incrementNotifyCount();		
@@ -767,6 +798,10 @@ public class Service
 		return true;
 	}
 
+	/**
+	 * @Note 发送通知
+	 * @param stateVar
+     */
 	public void notify(StateVariable stateVar)
 	{
 		SubscriberList subList = getSubscriberList();
@@ -782,7 +817,7 @@ public class Service
 			Subscriber sub = subs[n];
 			if (sub == null)
 				continue;
-			if (sub.isExpired() == true)
+			if (sub.isExpired())// @Note 判断订阅者是否过期
 				removeSubscriber(sub);
 		}
 		
@@ -795,7 +830,7 @@ public class Service
 			Subscriber sub = subs[n];
 			if (sub == null)
 				continue;
-			if (notify(sub, stateVar) == false) {
+			if (!notify(sub, stateVar)) {
 				/* Don't remove for NMPR specification.
 				removeSubscriber(sub);
 				*/
@@ -809,7 +844,7 @@ public class Service
 		int tableSize = stateTable.size();
 		for (int n=0; n<tableSize; n++) {
 			StateVariable var = stateTable.getStateVariable(n);
-			if (var.isSendEvents() == true)
+			if (var.isSendEvents())
 				notify(var);
 		}
 	}

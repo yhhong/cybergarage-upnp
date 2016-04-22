@@ -236,7 +236,7 @@ public class UPnP
 		if(xmlParser == null){
 			xmlParser = loadDefaultXMLParser();
 			if(xmlParser == null)
-				throw new RuntimeException("No XML parser defined. And unable to laod any. \n" +
+				throw new RuntimeException("No XML parser defined. And unable to load any. \n" +
 						"Try to invoke UPnP.setXMLParser before UPnP.getXMLParser");			
 			SOAP.setXMLParser(xmlParser);
 		}

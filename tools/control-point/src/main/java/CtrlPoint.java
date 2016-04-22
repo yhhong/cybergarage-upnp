@@ -91,24 +91,22 @@ public class CtrlPoint extends ControlPoint implements NotifyListener, EventList
 	}
 	
 	////////////////////////////////////////////////
-	//	Listener
+	//	Listener	@Note 思考,设备离线,不及时的情况会是什么原因导致?
 	////////////////////////////////////////////////
 	
 	public void deviceNotifyReceived(SSDPPacket packet)
 	{
-		System.out.println(packet.toString());
-		
-		if (packet.isDiscover() == true) {
+		if (packet.isDiscover()) {
 			String st = packet.getST();
 			printConsole("ssdp:discover : ST = " + st); 
 		}
-		else if (packet.isAlive() == true) {
+		else if (packet.isAlive()) {
 			String usn = packet.getUSN();
 			String nt = packet.getNT();
 			String url = packet.getLocation();
 			printConsole("ssdp:alive : uuid = " + usn + ", NT = " + nt + ", location = " + url); 
 		}
-		else if (packet.isByeBye() == true) {
+		else if (packet.isByeBye()) {
 			String usn = packet.getUSN();
 			String nt = packet.getNT();
 			printConsole("ssdp:byebye : uuid = " + usn + ", NT = " + nt); 
@@ -141,7 +139,8 @@ public class CtrlPoint extends ControlPoint implements NotifyListener, EventList
 			String opt = args[n];
 			if (opt.equals("-v") || opt.equals("--verbose")) {
 				Debug.on();
-				Debug.message("Debug.on");			}
+				Debug.message("Debug.on");
+			}
 		}
 		
 		CtrlPoint ctrlPoint = new CtrlPoint();

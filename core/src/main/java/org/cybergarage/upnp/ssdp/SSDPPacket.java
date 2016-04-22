@@ -29,6 +29,9 @@ import org.cybergarage.http.*;
 
 import org.cybergarage.upnp.device.*;
 
+/**
+ * @Note 简单服务发现协议-对DatagramPacket的简单封装
+ */
 public class SSDPPacket 
 {
 	////////////////////////////////////////////////
@@ -178,7 +181,7 @@ public class SSDPPacket
 	}
 
 	////////////////////////////////////////////////
-	//	Access Methods
+	//	Access Methods	@Note 获取主机网络地址
 	////////////////////////////////////////////////
 
 	public InetAddress getHostInetAddress()
@@ -203,10 +206,10 @@ public class SSDPPacket
 	
 	public boolean isRootDevice()
 	{
-		if (NT.isRootDevice(getNT()) == true)
+		if (NT.isRootDevice(getNT()))
 			return true;
 		// Thanks for Theo Beisch (11/01/04)
-		if (ST.isRootDevice(getST()) == true)
+		if (ST.isRootDevice(getST()))
 			return true;
 		return USN.isRootDevice(getUSN());
 	}

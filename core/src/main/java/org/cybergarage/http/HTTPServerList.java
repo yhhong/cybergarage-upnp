@@ -74,12 +74,14 @@ public class HTTPServerList extends Vector
 	public int open(){
 		InetAddress[] binds=this.binds;
 		String[] bindAddresses;
-		if(binds!=null){			
+		if(binds!=null){
+			// @Note
 			bindAddresses = new String[binds.length];
 			for (int i = 0; i < binds.length; i++) {
 				bindAddresses[i] = binds[i].getHostAddress();
 			}
 		}else{
+			// @Note 获取the address of this machine
 			int nHostAddrs = HostInterface.getNHostAddresses();
 			bindAddresses = new String[nHostAddrs]; 
 			for (int n=0; n<nHostAddrs; n++) {
@@ -93,8 +95,10 @@ public class HTTPServerList extends Vector
 				close();
 				clear();
 			}else{
-				add(httpServer);
-				j++;
+				if (HostInterface.isIPv4Address(bindAddresses[i])){	//@Note modify by yinghuihong
+					add(httpServer);
+					j++;
+				}
 			}
 		}
 		return j;

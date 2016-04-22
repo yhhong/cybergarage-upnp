@@ -96,6 +96,10 @@ public class HTTPUSocket
 		return ssdpUniSock.getLocalAddress().getHostAddress();
 	}
 
+	public int getLocalPort(){
+		return ssdpUniSock.getPort();
+	}
+
 	////////////////////////////////////////////////
 	//	open
 	////////////////////////////////////////////////
@@ -193,21 +197,23 @@ public class HTTPUSocket
 	}
 
 	////////////////////////////////////////////////
-	//	send
+	//	send	@Note 点对点发送,用在Device向ControlPoint发送搜索响应的场景
 	////////////////////////////////////////////////
 
-	public boolean post(String addr, int port, String msg)
+	public boolean post(String address, int port, String msg)
 	{
 		try {
-			InetAddress inetAddr = InetAddress.getByName(addr);
-			DatagramPacket dgmPacket = new DatagramPacket(msg.getBytes(), msg.length(), inetAddr, port);
+			Debug.warning("[HTTPUSocket.java] 发送单播消息 Post to host : " + address + ":" +port + ", content:\n" + msg);
+			InetAddress inetAddress = InetAddress.getByName(address);
+
+			DatagramPacket dgmPacket = new DatagramPacket(msg.getBytes(), msg.length(), inetAddress, port);
 			ssdpUniSock.send(dgmPacket);
 		}
 		catch (Exception e) {
 			Debug.warning(e);
 			if (ssdpUniSock != null) {
-				Debug.warning("addr = " + ssdpUniSock.getLocalAddress().getHostName());
-				Debug.warning("port = " + ssdpUniSock.getLocalPort());
+				Debug.warning("[HTTPUSocket.java] localAddress = " + ssdpUniSock.getLocalAddress());// @Edit .getHostName()
+				Debug.warning("[HTTPUSocket.java] localPort = " + ssdpUniSock.getLocalPort());
 			}
 			return false;
 		}
@@ -215,7 +221,7 @@ public class HTTPUSocket
 	}
 
 	////////////////////////////////////////////////
-	//	reveive
+	//	reveive @Note 控制点接收到设备发出的消息
 	////////////////////////////////////////////////
 
 	public SSDPPacket receive()

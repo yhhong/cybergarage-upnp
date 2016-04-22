@@ -182,7 +182,7 @@ public class SOAPResponse extends HTTPResponse
 	
 	public void print()
 	{
-		Debug.message(toString());
+		Debug.message("[SOAPResponse.java] 控制/查询结果,内容:\n" + toString());
 		if (hasContent() == true)
 			return;
 		Node rootElem = getRootNode();

@@ -22,6 +22,9 @@ import org.cybergarage.net.*;
 
 import org.cybergarage.upnp.*;
 
+/**
+ * @Note 控制点端
+ */
 public class SSDPNotifySocketList extends Vector 
 {
 	////////////////////////////////////////////////
@@ -86,8 +89,10 @@ public class SSDPNotifySocketList extends Vector
 		
 		for (int i = 0; i < bindAddresses.length; i++) {
 			if(bindAddresses[i]!=null){
-				SSDPNotifySocket ssdpNotifySocket = new SSDPNotifySocket(bindAddresses[i]);
-				add(ssdpNotifySocket);
+				if (HostInterface.isIPv4Address(bindAddresses[i])){	//@Note modify by yinghuihong
+					SSDPNotifySocket ssdpNotifySocket = new SSDPNotifySocket(bindAddresses[i]);
+					add(ssdpNotifySocket);
+				}
 			}
 		}
 		return true;

@@ -17,5 +17,9 @@ package org.cybergarage.http;
 
 public interface HTTPRequestListener
 {
-	public void httpRequestRecieved(HTTPRequest httpReq);
+	/**
+	 * @Note HTTP Server接收到client发来的HTTP请求
+	 * @param httpReq
+     */
+	public void httpRequestReceived(HTTPRequest httpReq);
 }

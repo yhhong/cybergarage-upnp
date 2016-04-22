@@ -78,7 +78,7 @@ public class ActionPane extends JPanel implements ActionListener
 		}
 		String title = action.getName();
 		String msg = "";
-		boolean ctrlRes = action.postControlAction();
+		boolean ctrlRes = action.postControlAction();// @Note 执行远程控制动作
 		if (ctrlRes == true) {
 			ArgumentList outArgList = action.getOutputArgumentList();
 			int nArgs = outArgList.size();
