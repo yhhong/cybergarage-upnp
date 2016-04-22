@@ -29,12 +29,6 @@ public class LightDevice extends Device implements ActionListener, QueryListener
 
 		Debug.on();
 
-		setSSDPBindAddress(
-				HostInterface.getInetAddress(HostInterface.IPV4_BITMASK, null)
-		);
-		setHTTPBindAddress(
-				HostInterface.getInetAddress(HostInterface.IPV4_BITMASK, null)
-		);
 		setLeaseTime(30*60);
 
 		Action getPowerAction = getAction("GetPower");

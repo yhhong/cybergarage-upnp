@@ -2220,6 +2220,13 @@ public class Device implements org.cybergarage.http.HTTPRequestListener,
     public boolean start() {
         stop(true);
 
+        setSSDPBindAddress(
+                HostInterface.getInetAddress(HostInterface.IPV4_BITMASK, null)
+        );
+        setHTTPBindAddress(
+                HostInterface.getInetAddress(HostInterface.IPV4_BITMASK, null)
+        );
+
         // //////////////////////////////////////
         // HTTP Server  @Note 设备开启HTTP服务
         // //////////////////////////////////////
