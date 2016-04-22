@@ -182,7 +182,7 @@ public class MediaRenderer extends Device
 		}
 		*/
 		
-		super.httpRequestRecieved(httpReq);
+		super.httpRequestReceived(httpReq);
 	}
 	
 	////////////////////////////////////////////////

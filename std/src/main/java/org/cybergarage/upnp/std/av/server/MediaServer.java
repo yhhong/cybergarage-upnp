@@ -220,7 +220,7 @@ public class MediaServer extends Device
 			return;
 		}
 			 
-		super.httpRequestRecieved(httpReq);
+		super.httpRequestReceived(httpReq);
 	}
 	
 	////////////////////////////////////////////////
