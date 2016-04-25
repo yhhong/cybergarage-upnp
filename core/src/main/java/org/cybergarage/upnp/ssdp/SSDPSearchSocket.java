@@ -156,7 +156,7 @@ public class SSDPSearchSocket extends HTTPMUSocket implements Runnable
 			// Thanks for Kazuyuki Shudo (08/23/07)
 			SSDPPacket packet = null;
 			try {
-				Debug.message("[SSDPSearchSocket.java] 堵塞监听多播地址的消息中 (只要'设备发现消息',否则忽略) MulticastSocket receive ..." + getSocket().getLocalAddress() + ":" + getSocket().getLocalPort());
+				Debug.message("[SSDPSearchSocket.java] 堵塞监听多播地址的消息中 (只接收'设备发现消息',其余忽略) MulticastSocket receive ...");
 				packet = receive();
 //				Debug.message("[SSDPSearchSocket.java] MulticastSocket receive:\n"+ packet.toString());// @Note 自己也会受到自己的通知
 			}

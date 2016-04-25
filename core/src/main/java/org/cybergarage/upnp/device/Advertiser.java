@@ -59,7 +59,6 @@ public class Advertiser extends ThreadCore {
             try {
                 Thread.sleep(notifyInterval);
             } catch (InterruptedException e) {
-                e.printStackTrace();
             }
             if (getThreadObject() != null && !getThreadObject().isInterrupted()) {
                 dev.announce();
